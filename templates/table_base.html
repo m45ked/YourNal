@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block container %}
+<table>
+    {% for item in items %}
+    <tr>
+        <td>{{item.no}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.password}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

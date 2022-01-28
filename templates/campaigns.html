@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block menu %}
+    <a href="{{ url_for('create_campaign') }}">Create new campaign</a>
+{% endblock %}
+
+{% block container %}
+    <table id="data" class="table table-striped">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for campaign in campaigns %}
+            <tr>
+                <td>{{ campaign.name }}</td>
+                <td>{{ campaign.desc }}</td>
+                <td>
+                    <p><a href="{{ url_for('delete_campaign', campaign_id=campaign.id)}}">Delete</a></p>
+                    <p><a href="{{ url_for('update_campaign', campaign_id=campaign.id)}}">Change</a></p>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

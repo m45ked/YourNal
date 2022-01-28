@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block menu %}
+    <a class="view" href="{{ url_for('show_campaigns') }}">Show campaigns</a>
+    <a class="manager" href="{{ url_for('create_user') }}">Create new user</a>
+{% endblock %}
+
+{% block container %}
+    <table id="data" class="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+            <tr>
+              <td>{{ user.name }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

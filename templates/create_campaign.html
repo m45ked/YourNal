@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% from "_formhelpers.html" import render_field %}
+{% block container %}
+<div>
+    <form method="POST" action="{{ url_for('create_campaign') }}">
+        <dl>
+            {{ form.hidden_tag() }}
+            {{ render_field(form.name) }}
+            {{ render_field(form.desc) }}
+        </dl>
+        <p><input type=submit value="Create"></p>
+    </form>
+</div>
+{% endblock %}
+
+{% block menu %}
+    <a href="{{ url_for('show_users') }}">Show users</a>
+    <a href="{{ url_for('show_campaigns') }}">Show campaigns</a>
+{% endblock %}
