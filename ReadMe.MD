@@ -20,14 +20,14 @@ You cannot *make a character* (yet) in the app.
 
 Right now in the application you can **make** one, **delete** old and **edit** existing one.
 
-# vvv Not implemented vvv #
-yet
-
 # Session
 Session is a whole adventure of characters. It can be a long journey of army of heroes
 to save a world or just simple task from your Johnson.
 
 Session is made of series of *events*.
+
+# vvv Not implemented vvv #
+yet
 
 # Event
 It's a base unit of the universe. It describes particular matter that has place in
