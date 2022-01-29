@@ -7,7 +7,7 @@ from flask_app.forms import CampaignCreationForm, CampaignEditionForm
 
 @app.route("/campaigns")
 def show_campaigns():
-    return render_template('campaigns.html', campaigns=CampaignBO.query.all())
+    return render_template('campaigns/campaigns.html', campaigns=CampaignBO.query.all())
 
 
 @app.route('/campaign/create', methods=['POST', 'GET'])
@@ -19,7 +19,7 @@ def create_campaign():
             db.session.commit()
         return redirect(url_for('show_campaigns'))
     else:
-        return render_template('create_campaign.html', form=form)
+        return render_template('campaigns/create.html', form=form)
 
 
 @app.route('/campaign/delete/<campaign_id>')
@@ -40,7 +40,7 @@ def update_campaign(campaign_id):
     form.name.data = campaign.name
     form.desc.data = campaign.desc
     form.id.data = campaign_id
-    return render_template('update_campaign.html', form=form, campaign_id=campaign_id)
+    return render_template('campaigns/update.html', form=form, campaign_id=campaign_id)
 
 
 @app.route('/campaign/update/action/<campaign_id>', methods=['POST'])
