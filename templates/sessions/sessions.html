@@ -8,6 +8,7 @@
                 <th>Name</th>
                 <th>Date</th>
                 <th>GM</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -16,6 +17,10 @@
                 <td>{{ row.no }}</td>
                 <td>{{ row.session.playing_date }}</td>
                 <td>{{ row.session.gm.name }}</td>
+                <td>
+                    <a href="{{ url_for('delete_session', session_id=row.session.id) }}">Delete</a>
+                    <a href="{{ url_for('update_session', session_id=row.session.id) }}">Edit</a>
+                </td>
             </tr>
         {% endfor %}
         </tbody>

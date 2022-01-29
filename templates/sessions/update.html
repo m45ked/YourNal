@@ -1,0 +1,14 @@
+{% extends 'utils/base.html' %}
+{% from "utils/_formhelpers.html" import render_field %}
+{% block container %}
+<div>
+    <form method="POST" action="{{ url_for('update_session_action', session_id=form.id.data) }}">
+        <dl>
+            {{ form.hidden_tag() }}
+            {{ render_field(form.playing_date) }}
+            {{ render_field(form.gm) }}
+        </dl>
+        <p><input type=submit value="Update"></p>
+    </form>
+</div>
+{% endblock %}

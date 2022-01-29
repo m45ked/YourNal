@@ -28,3 +28,7 @@ class SessionCreationForm(FlaskForm):
     playing_date = DateField(label='playing_date', validators=[DataRequired()])
     gm = SelectField(label='gm', validators=[InputRequired()])
     campaign_id = HiddenField(label='campaign_id')
+
+
+class SessionEditionForm(SessionCreationForm):
+    id = HiddenField(label='campaign_id')
