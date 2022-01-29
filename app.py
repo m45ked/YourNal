@@ -83,6 +83,14 @@ def create_user():
     return render_template('create_user.html', form=UserCreationForm())
 
 
+@app.route('/delete_user/<user_id>')
+def delete_user(user_id):
+    user = UserBO.query.filter_by(id=user_id).first()
+    db.session.delete(user)
+    db.session.commit()
+    return redirect(url_for('show_users'))
+
+
 @app.route('/create_campaign', methods=['POST', 'GET'])
 def create_campaign():
     form = CampaignCreationForm()
