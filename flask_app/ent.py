@@ -1,4 +1,4 @@
-from flask_app import db
+from flask_app.db import db
 
 
 class CampaignBO(db.Model):
@@ -14,11 +14,14 @@ class UserBO(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     password = db.Column(db.String, nullable=False)
+    gm_sessions = db.relationship('SessionBO', back_populates='gm')
 
 
 class SessionBO(db.Model):
     __tablename__ = 'sessions'
     id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.Date, nullable=False)
+    playing_date = db.Column(db.Date, nullable=False)
     campaign_id = db.Column(db.Integer, db.ForeignKey('campaigns.id'))
     campaign = db.relationship('CampaignBO', back_populates='sessions')
+    gm_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    gm = db.relationship('UserBO', back_populates='gm_sessions')

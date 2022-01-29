@@ -1,0 +1,27 @@
+{% extends 'utils/base.html' %}
+
+{% block container %}
+    <h3>Sessions for campaign ''{{ campaign.name }}''</h3>
+    <table id="data" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>GM</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for row in data %}
+            <tr>
+                <td>{{ row.no }}</td>
+                <td>{{ row.session.playing_date }}</td>
+                <td>{{ row.session.gm.name }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block menu %}
+    <a href="{{ url_for('create_session', campaign_id=campaign.id) }}">Create new session</a>
+{% endblock %}

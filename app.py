@@ -1,15 +1,17 @@
 from flask_wtf import CSRFProtect
 from configparser import ConfigParser
-from flask import send_from_directory
+from flask import send_from_directory, render_template
 
-from flask_app.routes.users import *
-from flask_app.routes.campaigns import *
+from flask_app import app
+from flask_app.db import db
+from flask_app.ent import CampaignBO
+from flask_app.routes.users import show_users, create_user, update_user, update_user_action, delete_user
+from flask_app.routes.campaigns import update_campaign, show_campaigns, update_campaign_action, create_campaign, \
+    delete_campaign
+from flask_app.routes.sessions import show_sessions, create_session
 
 
 csrf = CSRFProtect()
-
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///e:/database.db3"
-app.config['SECRET_KEY'] = 'very simple secret key'
 
 
 @app.route('/')
@@ -17,12 +19,6 @@ app.config['SECRET_KEY'] = 'very simple secret key'
 def index():
     db.create_all()
     return render_template('index.html')
-
-
-@app.route('/sessions/<campaign_id>')
-def show_sessions(campaign_id):
-    sessions = CampaignBO.query.filter_by(id=campaign_id).all()
-    return "sessions"
 
 
 @app.route('/favicon.ico')
@@ -51,4 +47,5 @@ if __name__ == '__main__':
         if db_path:
             app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{db_path}"
 
+    db.init_app(app=app)
     app.run(debug=debug)

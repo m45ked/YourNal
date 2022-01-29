@@ -1,6 +1,7 @@
 from flask import render_template, request, redirect, url_for
 
-from flask_app import db, app
+from flask_app import app
+from flask_app.db import db
 from flask_app.ent import CampaignBO
 from flask_app.forms import CampaignCreationForm, CampaignEditionForm
 

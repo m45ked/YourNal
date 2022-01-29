@@ -1,6 +1,7 @@
 from flask import render_template, url_for, request, redirect
 
-from flask_app import app, db
+from flask_app import app
+from flask_app.db import db
 from flask_app.ent import UserBO
 from flask_app.forms import UserEditionForm, UserCreationForm
 

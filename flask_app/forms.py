@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, TextAreaField, HiddenField
-from wtforms.validators import DataRequired, EqualTo, Length
+from wtforms import StringField, PasswordField, TextAreaField, HiddenField, DateField, SelectField
+from wtforms.validators import DataRequired, EqualTo, Length, InputRequired
 
 
 class UserCreationForm(FlaskForm):
@@ -22,3 +22,9 @@ class CampaignCreationForm(FlaskForm):
 
 class CampaignEditionForm(CampaignCreationForm):
     id = HiddenField(label='id')
+
+
+class SessionCreationForm(FlaskForm):
+    playing_date = DateField(label='playing_date', validators=[DataRequired()])
+    gm = SelectField(label='gm', validators=[InputRequired()])
+    campaign_id = HiddenField(label='campaign_id')

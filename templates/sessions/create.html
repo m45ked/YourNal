@@ -1,0 +1,16 @@
+{% extends "utils/base.html" %}
+{% from "utils/_formhelpers.html" import render_field %}
+
+{% block container %}
+<h3>Create session for campaign ''{{ campaign.name }}''</h3>
+<div>
+    <form method="POST" action="{{ url_for('create_session', campaign_id=campaign.id) }}">
+        <dl>
+            {{ form.hidden_tag() }}
+            {{ render_field(form.playing_date) }}
+            {{ render_field(form.gm) }}
+        </dl>
+        <p><input type=submit value="Create"></p>
+    </form>
+</div>
+{% endblock %}
