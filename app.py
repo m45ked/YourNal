@@ -91,6 +91,29 @@ def delete_user(user_id):
     return redirect(url_for('show_users'))
 
 
+@app.route('/update_user/<user_id>')
+def update_user(user_id):
+    user = UserBO.query.filter_by(id=user_id).first()
+    if user is None:
+        return redirect(url_for('show_users'))
+
+    form = UserEditionForm()
+    form.name.data = user.name
+    form.id.data = user_id
+    return render_template('update_user.html', form=form, user_id=user_id)
+
+
+@app.route('/update_user_action/<user_id>', methods=['POST'])
+def update_user_action(user_id):
+    user = UserBO.query.filter_by(id=user_id).first()
+    form = UserEditionForm()
+    user.name = form.name.data
+
+    db.session.commit()
+
+    return redirect(url_for('show_users'))
+
+
 @app.route('/create_campaign', methods=['POST', 'GET'])
 def create_campaign():
     form = CampaignCreationForm()

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% from "_formhelpers.html" import render_field %}
+{% block container %}
+<div>
+    <form method="POST" action="{{ url_for('update_user_action', user_id=user_id) }}">
+        <dl>
+            {{ form.hidden_tag() }}
+            {{ render_field(form.name) }}
+        </dl>
+        <p><input type=submit value="Update"></p>
+    </form>
+</div>
+{% endblock %}
+
+{% block menu %}
+    <a href="{{ url_for('show_users') }}">Show users</a>
+    <a href="{{ url_for('show_campaigns') }}">Show campaigns</a>
+{% endblock %}
