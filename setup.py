@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name='YourNal',
     version='0.0.01a',
-    packages=['orm'],
+    packages=['flask_app'],
     url='https://github.com/m45ked/YourNal',
     license='',
     author='michal',
