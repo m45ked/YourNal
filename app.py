@@ -45,6 +45,7 @@ class CampaignBO(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     desc = db.Column(db.String)
+    sessions = db.relationship('SessionBO', back_populates='campaign')
 
 
 class UserBO(db.Model):
@@ -52,6 +53,14 @@ class UserBO(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     password = db.Column(db.String, nullable=False)
+
+
+class SessionBO(db.Model):
+    __tablename__ = 'sessions'
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.Date, nullable=False)
+    campaign_id = db.Column(db.Integer, db.ForeignKey('campaigns.id'))
+    campaign = db.relationship('CampaignBO', back_populates='sessions')
 
 
 @app.route('/')
@@ -72,7 +81,7 @@ def show_campaigns():
     return render_template('campaigns.html', campaigns=CampaignBO.query.all())
 
 
-@app.route('/create_user', methods=['POST', 'GET'])
+@app.route('/user/create', methods=['POST', 'GET'])
 def create_user():
     form = UserCreationForm()
     if request.method == 'POST':
@@ -84,7 +93,7 @@ def create_user():
     return render_template('create_user.html', form=UserCreationForm())
 
 
-@app.route('/delete_user/<user_id>')
+@app.route('/user/delete/<user_id>')
 def delete_user(user_id):
     user = UserBO.query.filter_by(id=user_id).first()
     db.session.delete(user)
@@ -92,7 +101,7 @@ def delete_user(user_id):
     return redirect(url_for('show_users'))
 
 
-@app.route('/update_user/<user_id>')
+@app.route('/user/update/<user_id>')
 def update_user(user_id):
     user = UserBO.query.filter_by(id=user_id).first()
     if user is None:
@@ -104,7 +113,7 @@ def update_user(user_id):
     return render_template('update_user.html', form=form, user_id=user_id)
 
 
-@app.route('/update_user_action/<user_id>', methods=['POST'])
+@app.route('/user/update/action/<user_id>', methods=['POST'])
 def update_user_action(user_id):
     user = UserBO.query.filter_by(id=user_id).first()
     form = UserEditionForm()
@@ -115,7 +124,7 @@ def update_user_action(user_id):
     return redirect(url_for('show_users'))
 
 
-@app.route('/create_campaign', methods=['POST', 'GET'])
+@app.route('/campaign/create', methods=['POST', 'GET'])
 def create_campaign():
     form = CampaignCreationForm()
     if request.method == 'POST':
@@ -127,7 +136,7 @@ def create_campaign():
         return render_template('create_campaign.html', form=form)
 
 
-@app.route('/delete_campaign/<campaign_id>')
+@app.route('/campaign/delete/<campaign_id>')
 def delete_campaign(campaign_id):
     campaign = CampaignBO.query.filter_by(id=campaign_id).first()
     db.session.delete(campaign)
@@ -135,7 +144,7 @@ def delete_campaign(campaign_id):
     return redirect(url_for('show_campaigns'))
 
 
-@app.route('/update_campaign/<campaign_id>')
+@app.route('/campaign/update/<campaign_id>')
 def update_campaign(campaign_id):
     campaign = CampaignBO.query.filter_by(id=campaign_id).first()
     if campaign is None:
@@ -148,7 +157,7 @@ def update_campaign(campaign_id):
     return render_template('update_campaign.html', form=form, campaign_id=campaign_id)
 
 
-@app.route('/update_campaign_action/<campaign_id>', methods=['POST'])
+@app.route('/campaign/update/action/<campaign_id>', methods=['POST'])
 def update_campaign_action(campaign_id):
     campaign = CampaignBO.query.filter_by(id=campaign_id).first()
     form = CampaignEditionForm()
@@ -158,6 +167,12 @@ def update_campaign_action(campaign_id):
     db.session.commit()
 
     return redirect(url_for('show_campaigns'))
+
+
+@app.route('/sessions/<campaign_id>')
+def show_sessions(campaign_id):
+    sessions = CampaignBO.query.filter_by(id=campaign_id).all()
+    return "sessions"
 
 
 @app.route('/favicon.ico')
