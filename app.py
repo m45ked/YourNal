@@ -2,6 +2,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, TextAreaField, HiddenField
 from wtforms.validators import DataRequired, EqualTo, Length
 
+from configparser import ConfigParser
+
 from sqlalchemy import create_engine, select, insert
 from flask import Flask, url_for, request, session, render_template, redirect, flash, send_from_directory
 
@@ -14,7 +16,6 @@ csrf = CSRFProtect()
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///e:/database.db3"
 app.config['SECRET_KEY'] = 'very simple secret key'
-app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
 
 
@@ -167,4 +168,22 @@ def favicon():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    config = ConfigParser()
+
+    from os.path import exists
+    if exists('config/yournal.properties'):
+        config.read('./config/yournal.properties')
+
+    debug = False
+    if config.has_section('DEVELOPMENT'):
+        dev_config = config['DEVELOPMENT']
+        if dev_config.getboolean('debug'):
+            debug = True
+        if dev_config.getboolean('echo_sql'):
+            app.config['SQLALCHEMY_ECHO'] = True
+    if config.has_section('DATABASE'):
+        db_path = config['DATABASE'].get('path')
+        if db_path:
+            app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{db_path}"
+
+    app.run(debug=debug)
